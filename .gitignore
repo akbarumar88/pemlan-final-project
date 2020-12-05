@@ -1,0 +1,10 @@
+bin/Debug/*.exe
+*.depend
+
+*.layout
+
+main.exe
+
+bin/Debug/CRUD mahasiswa final
+
+CRUD mahasiswa final.exe
