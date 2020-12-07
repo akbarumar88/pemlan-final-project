@@ -26,67 +26,9 @@ int curSize = 4;
 Mahasiswa listMhs[max] = {
     { "Akbar Umar", "043", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
     { "Danil Hendra", "045", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
-    { "Bayu Aji", "046", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
-    { "Firman Anhar", "047", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
+    { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
+    { "Firman Anhar Rajiman", "057", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
 };
-
-int main()
-{
-    displayMahasiswa();
-    bool exit = false;
-    while (!exit) {
-        int choice;
-        printf("1. Tambah Data \n");
-        printf("2. Ubah Data \n");
-        printf("3. Hapus Data \n");
-        printf("4. Keluar \n");
-        printf("5. Urut berdasarkan nama \n");
-        printf("6. Urut berdasarkan NPM \n");
-        printf("7. Cari berdasarkan NPM \n");
-        printf("Pilihan Anda: "); scanf("%i", &choice);
-        printf("\n");
-
-        switch(choice) {
-            case 1:
-                tambahData();
-                displayMahasiswa();
-                break;
-
-            case 2:
-                ubahData();
-                displayMahasiswa();
-                break;
-
-            case 3:
-                hapusData();
-                displayMahasiswa();
-                break;
-
-            case 4:
-                exit = true;
-                break;
-
-            case 5:
-                urutBy("nama");
-                displayMahasiswa();
-                break;
-
-            case 6:
-                urutBy("npm");
-                displayMahasiswa();
-                break;
-
-            case 7:
-                searchBy("npm");
-                break;
-
-            default:
-                printf("Pilihan tidak tersedia\n\n");
-                break;
-        }
-    }
-    return 0;
-}
 
 void tambahData() {
     Mahasiswa m;
@@ -291,14 +233,13 @@ void searchBy(char atribut[]) {
     // Inputkan searching method (sequential/binary)
     do
     {
-        printf("1. Sequential Search\n");
-        printf("2. Binary Search\n");
-        printf("3. Interpolation Search\n");
+        printf("1. Pencarian Eksak\n");
+        printf("2. Pencarian Parsial\n");
         printf("Pilih metode searching : "); scanf("%i", &search_method);
         printf("\n");
         // Jika salah inputan, maka continue
-        if (search_method < 1 || search_method > 3) {
-            printf("Pilih antara 1 sampai 3! \n\n");
+        if (search_method < 1 || search_method > 2) {
+            printf("Pilih antara 1 sampai 2! \n\n");
             salahInput=true;
             continue;
         }
@@ -306,62 +247,74 @@ void searchBy(char atribut[]) {
     } while (salahInput);
 
     char keyword[30];
-    printf("Inputkan NPM yang akan anda cari : "); scanf("%s", keyword);
+    printf("Inputkan %s yang akan anda cari : ", atribut); fflush(stdin); gets(keyword);
     switch(search_method) {
         case 1:
-            sequentialSearch(keyword);
+            binarySearch(atribut, keyword);
             break;
 
         case 2:
-            binarySearch(keyword);
-            break;
-
-        case 3:
-            interpolationSearch(keyword);
+            sequentialSearch(atribut, keyword);
             break;
     }
 }
 
-void sequentialSearch(char keyword[30]) {
+// Sequential Search untuk Searching Parsial
+void sequentialSearch(char atribut[], char keyword[30]) {
+    Mahasiswa hasil_search[max];
+    int hasil_search_size=0;
     bool found=false;
     int i;
     for (i=0; i<curSize; i++) {
         Mahasiswa current_mhs = listMhs[i];
+        // Percabangan kondisi
+        char *search_res = strcmp(atribut, "npm") == 0
+                        ? strstr(current_mhs.npm, keyword)
+                        : strstr(current_mhs.nama, keyword);
         // Jika data ditemukan maka:
-        if (strcmp(current_mhs.npm, keyword) == 0) {
+        if (search_res != NULL) {
             found = true;
-            break;
+            hasil_search[hasil_search_size] = listMhs[i];
+            hasil_search_size++;
+            //break;
         }
     }
 
     if (!found) {
         printf("Maaf, data yang anda cari tidak ditemukan \n\n");
     } else {
-        Mahasiswa current_mhs = listMhs[i];
         printf("Data yang anda cari berhasil ditemukan \n");
-        printf("Nama        : %s \n", current_mhs.nama);
-        printf("NPM         : %s \n", current_mhs.npm);
-        printf("Fakultas    : %s \n", current_mhs.fakultas);
-        printf("Jurusan     : %s \n", current_mhs.jurusan);
-        printf("Semester    : %i \n", current_mhs.semester);
-        printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
+        int j;
+        for (j=0; j<hasil_search_size; j++) {
+            Mahasiswa current_mhs = hasil_search[j];
+            printf("Nama        : %s \n", current_mhs.nama);
+            printf("NPM         : %s \n", current_mhs.npm);
+            printf("Fakultas    : %s \n", current_mhs.fakultas);
+            printf("Jurusan     : %s \n", current_mhs.jurusan);
+            printf("Semester    : %i \n", current_mhs.semester);
+            printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
+        }
     }
 }
 
-void binarySearch(char keyword[30]) {
+// Binary Search untuk Searching Eksak
+void binarySearch(char atribut[], char keyword[30]) {
     // Urutkan data terlebih dahulu, by NPM ascending
     selectionSort("npm", 1);
 
     // Inisialisasi awal
     bool found=false;
     int l=0, r=curSize-1, m;
-
     while (l <= r && !found) {
         m = (l+r)/2;
+        // Percabangan Kondisi
+        int res_compare = strcmp(atribut, "npm") == 0
+                        ? strcmp(keyword, listMhs[m].npm)
+                        : strcmp(keyword, listMhs[m].nama);
         // Jika data ditemukan
-        if (strcmp(keyword, listMhs[m].npm) == 0) {
+        if (res_compare == 0) {
             found=true;
-        } else if (strcmp(keyword, listMhs[m].npm) < 0) {
+        } else if (res_compare < 0) {
             r = m-1;
         } else {
             l = m+1;
@@ -371,8 +324,8 @@ void binarySearch(char keyword[30]) {
     if (!found) {
         printf("Maaf, data yang anda cari tidak ditemukan \n\n");
     } else {
-        Mahasiswa current_mhs = listMhs[m];
         printf("Data yang anda cari berhasil ditemukan \n");
+        Mahasiswa current_mhs = listMhs[m];
         printf("Nama        : %s \n", current_mhs.nama);
         printf("NPM         : %s \n", current_mhs.npm);
         printf("Fakultas    : %s \n", current_mhs.fakultas);
@@ -382,37 +335,66 @@ void binarySearch(char keyword[30]) {
     }
 }
 
-void interpolationSearch(char keyword[30]) {
-    // Urutkan data terlebih dahulu, by NPM ascending
-    selectionSort("npm", 1);
+int main()
+{
+    displayMahasiswa();
+    bool exit = false;
+    while (!exit) {
+        int choice;
+        printf("1. Tambah Data \n");
+        printf("2. Ubah Data \n");
+        printf("3. Hapus Data \n");
+        printf("4. Keluar \n");
+        printf("5. Urut berdasarkan Nama \n");
+        printf("6. Urut berdasarkan NPM \n");
+        printf("7. Cari berdasarkan Nama \n");
+        printf("8. Cari berdasarkan NPM \n");
+        printf("Pilihan Anda: "); scanf("%i", &choice);
+        printf("\n");
 
-    // Inisialisasi awal
-    bool found=false;
-    int l=0, r=curSize-1, m;
+        switch(choice) {
+            case 1:
+                tambahData();
+                displayMahasiswa();
+                break;
 
-    while (l <= r && !found) {
-        m = (l+r)/2;
-        // Jika data ditemukan
-        if (strcmp(keyword, listMhs[m].npm) == 0) {
-            found=true;
-        } else if (strcmp(keyword, listMhs[m].npm) < 0) {
-            r = m-1;
-        } else {
-            l = m+1;
+            case 2:
+                ubahData();
+                displayMahasiswa();
+                break;
+
+            case 3:
+                hapusData();
+                displayMahasiswa();
+                break;
+
+            case 4:
+                exit = true;
+                break;
+
+            case 5:
+                urutBy("nama");
+                displayMahasiswa();
+                break;
+
+            case 6:
+                urutBy("npm");
+                displayMahasiswa();
+                break;
+
+            case 7:
+                searchBy("nama");
+                break;
+
+            case 8:
+                searchBy("npm");
+                break;
+
+            default:
+                printf("Pilihan tidak tersedia\n\n");
+                break;
         }
     }
-
-    if (!found) {
-        printf("Maaf, data yang anda cari tidak ditemukan \n\n");
-    } else {
-        Mahasiswa current_mhs = listMhs[m];
-        printf("Data yang anda cari berhasil ditemukan \n");
-        printf("Nama        : %s \n", current_mhs.nama);
-        printf("NPM         : %s \n", current_mhs.npm);
-        printf("Fakultas    : %s \n", current_mhs.fakultas);
-        printf("Jurusan     : %s \n", current_mhs.jurusan);
-        printf("Semester    : %i \n", current_mhs.semester);
-        printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
-    }
+    return 0;
 }
 // End searching method
