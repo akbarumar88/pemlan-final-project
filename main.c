@@ -30,69 +30,6 @@ Mahasiswa listMhs[max] = {
     { "Firman Anhar Rajiman", "057", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
 };
 
-int main()
-{
-    displayMahasiswa();
-    bool exit = false;
-    while (!exit) {
-        int choice;
-        printf("1. Tambah Data \n");
-        printf("2. Ubah Data \n");
-        printf("3. Hapus Data \n");
-        printf("4. Keluar \n");
-        printf("5. Urut berdasarkan Nama \n");
-        printf("6. Urut berdasarkan NPM \n");
-        printf("7. Cari berdasarkan Nama \n");
-        printf("8. Cari berdasarkan NPM \n");
-        printf("Pilihan Anda: "); scanf("%i", &choice);
-        printf("\n");
-
-        switch(choice) {
-            case 1:
-                tambahData();
-                displayMahasiswa();
-                break;
-
-            case 2:
-                ubahData();
-                displayMahasiswa();
-                break;
-
-            case 3:
-                hapusData();
-                displayMahasiswa();
-                break;
-
-            case 4:
-                exit = true;
-                break;
-
-            case 5:
-                urutBy("nama");
-                displayMahasiswa();
-                break;
-
-            case 6:
-                urutBy("npm");
-                displayMahasiswa();
-                break;
-
-            case 7:
-                searchBy("nama");
-                break;
-
-            case 8:
-                searchBy("npm");
-                break;
-
-            default:
-                printf("Pilihan tidak tersedia\n\n");
-                break;
-        }
-    }
-    return 0;
-}
-
 void tambahData() {
     Mahasiswa m;
     printf("Nama        : "); fflush(stdin); gets(m.nama);
@@ -310,7 +247,7 @@ void searchBy(char atribut[]) {
     } while (salahInput);
 
     char keyword[30];
-    printf("Inputkan %s yang akan anda cari : ", atribut); scanf("%s", keyword);
+    printf("Inputkan %s yang akan anda cari : ", atribut); fflush(stdin); gets(keyword);
     switch(search_method) {
         case 1:
             binarySearch(atribut, keyword);
@@ -396,5 +333,68 @@ void binarySearch(char atribut[], char keyword[30]) {
         printf("Semester    : %i \n", current_mhs.semester);
         printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
     }
+}
+
+int main()
+{
+    displayMahasiswa();
+    bool exit = false;
+    while (!exit) {
+        int choice;
+        printf("1. Tambah Data \n");
+        printf("2. Ubah Data \n");
+        printf("3. Hapus Data \n");
+        printf("4. Keluar \n");
+        printf("5. Urut berdasarkan Nama \n");
+        printf("6. Urut berdasarkan NPM \n");
+        printf("7. Cari berdasarkan Nama \n");
+        printf("8. Cari berdasarkan NPM \n");
+        printf("Pilihan Anda: "); scanf("%i", &choice);
+        printf("\n");
+
+        switch(choice) {
+            case 1:
+                tambahData();
+                displayMahasiswa();
+                break;
+
+            case 2:
+                ubahData();
+                displayMahasiswa();
+                break;
+
+            case 3:
+                hapusData();
+                displayMahasiswa();
+                break;
+
+            case 4:
+                exit = true;
+                break;
+
+            case 5:
+                urutBy("nama");
+                displayMahasiswa();
+                break;
+
+            case 6:
+                urutBy("npm");
+                displayMahasiswa();
+                break;
+
+            case 7:
+                searchBy("nama");
+                break;
+
+            case 8:
+                searchBy("npm");
+                break;
+
+            default:
+                printf("Pilihan tidak tersedia\n\n");
+                break;
+        }
+    }
+    return 0;
 }
 // End searching method
