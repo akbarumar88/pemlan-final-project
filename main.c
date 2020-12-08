@@ -27,7 +27,7 @@ Mahasiswa listMhs[max] = {
     { "Akbar Umar", "043", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
     { "Danil Hendra", "045", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
     { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
-    { "Firman Anhar Ketaji", "057", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
+    { "Firman Anhar Rajiman", "057", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
 };
 
 int main()
@@ -310,7 +310,7 @@ void searchBy(char atribut[]) {
     } while (salahInput);
 
     char keyword[30];
-    printf("Inputkan NPM yang akan anda cari : "); scanf("%s", keyword);
+    printf("Inputkan %s yang akan anda cari : ", atribut); scanf("%s", keyword);
     switch(search_method) {
         case 1:
             binarySearch(atribut, keyword);
@@ -322,6 +322,7 @@ void searchBy(char atribut[]) {
     }
 }
 
+// Sequential Search untuk Searching Parsial
 void sequentialSearch(char atribut[], char keyword[30]) {
     Mahasiswa hasil_search[max];
     int hasil_search_size=0;
@@ -330,11 +331,11 @@ void sequentialSearch(char atribut[], char keyword[30]) {
     for (i=0; i<curSize; i++) {
         Mahasiswa current_mhs = listMhs[i];
         // Percabangan kondisi
-        bool kondisi_search = strcmp(atribut, "npm") == 0
-                            ? strstr(current_mhs.npm, keyword) != NULL
-                            : strstr(current_mhs.nama, keyword) != NULL;
+        char *search_res = strcmp(atribut, "npm") == 0
+                        ? strstr(current_mhs.npm, keyword)
+                        : strstr(current_mhs.nama, keyword);
         // Jika data ditemukan maka:
-        if (kondisi_search) {
+        if (search_res != NULL) {
             found = true;
             hasil_search[hasil_search_size] = listMhs[i];
             hasil_search_size++;
@@ -359,7 +360,8 @@ void sequentialSearch(char atribut[], char keyword[30]) {
     }
 }
 
-void binarySearch(char keyword[30]) {
+// Binary Search untuk Searching Eksak
+void binarySearch(char atribut[], char keyword[30]) {
     // Urutkan data terlebih dahulu, by NPM ascending
     selectionSort("npm", 1);
 
@@ -368,10 +370,14 @@ void binarySearch(char keyword[30]) {
     int l=0, r=curSize-1, m;
     while (l <= r && !found) {
         m = (l+r)/2;
+        // Percabangan Kondisi
+        int res_compare = strcmp(atribut, "npm") == 0
+                        ? strcmp(keyword, listMhs[m].npm)
+                        : strcmp(keyword, listMhs[m].nama);
         // Jika data ditemukan
-        if (strcmp(listMhs[m].npm, keyword) == 0) {
+        if (res_compare == 0) {
             found=true;
-        } else if (strcmp(keyword, listMhs[m].npm) < 0) {
+        } else if (res_compare < 0) {
             r = m-1;
         } else {
             l = m+1;
