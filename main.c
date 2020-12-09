@@ -142,10 +142,11 @@ void urutBy(char atribut[]) {
     {
         printf("1. Bubble Sort\n");
         printf("2. Selection Sort\n");
+        printf("3. Insertion Sort\n");
         printf("Pilih metode pengurutan : "); scanf("%i", &sortingType);
         printf("\n");
         // Jika salah inputan, maka continue
-        if (sortingType < 1 || sortingType > 2) {
+        if (sortingType < 1 || sortingType > 3) {
             printf("Pilih antara 1 atau 2! \n\n");
             salahInput=true;
             continue;
@@ -160,6 +161,10 @@ void urutBy(char atribut[]) {
 
         case 2:
             selectionSort(atribut, order);
+            break;
+
+        case 3:
+            insertionSort(atribut, order);
             break;
     }
 }
@@ -222,6 +227,35 @@ selectionSort(char atribut[], int order) {
         Mahasiswa temp = listMhs[i];
         listMhs[i] = listMhs[selected_index];
         listMhs[selected_index] = temp;
+    }
+}
+
+insertionSort(char atribut[], int order) {
+    /**
+    * 1 = Ascending
+    * 2 = Descending
+    */
+    int i,j;
+    Mahasiswa temp;
+    for (i=1; i<curSize; i++) {
+        temp = listMhs[i];
+        j = i-1;
+
+        bool kondisi_compare;
+        if (strcmp(atribut, "nama") == 0) {
+            kondisi_compare = order == 1
+                            ? strcmp(listMhs[j].nama, temp.nama) > 0
+                            : strcmp(listMhs[j].nama, temp.nama) < 0;
+        } else {
+            kondisi_compare = order == 1
+                            ? strcmp(listMhs[j].npm, temp.npm) > 0
+                            : strcmp(listMhs[j].npm, temp.npm) < 0;
+        }
+        while (j>=0 && kondisi_compare) {
+            listMhs[j+1] = listMhs[j];
+            --j;
+        }
+        listMhs[j+1] = temp;
     }
 }
 // End sorting method
