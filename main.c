@@ -21,13 +21,14 @@ typedef struct
 
 #define max 100
 // Taruh variable size dan array global, biar bisa diakses dimana saja
-int curSize = 4;
+int curSize = 5;
 // Array kasih maxLength, kalau tidak maka terjadi eror ketika tambah/ubah data
 Mahasiswa listMhs[max] = {
     { "Akbar Umar", "043", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
     { "Danil Hendra", "045", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
     { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
     { "Firman Anhar Rajiman", "057", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
+    { "Zainal Arifin", "013", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} }
 };
 
 void tambahData() {
@@ -252,8 +253,20 @@ insertionSort(char atribut[], int order) {
                             : strcmp(listMhs[j].npm, temp.npm) < 0;
         }
         while (j>=0 && kondisi_compare) {
+            //printf("nggeser ");
             listMhs[j+1] = listMhs[j];
             --j;
+
+            // Perbarui kondisi compare, karena 'j' bergeser
+            if (strcmp(atribut, "nama") == 0) {
+                kondisi_compare = order == 1
+                                ? strcmp(listMhs[j].nama, temp.nama) > 0
+                                : strcmp(listMhs[j].nama, temp.nama) < 0;
+            } else {
+                kondisi_compare = order == 1
+                                ? strcmp(listMhs[j].npm, temp.npm) > 0
+                                : strcmp(listMhs[j].npm, temp.npm) < 0;
+            }
         }
         listMhs[j+1] = temp;
     }
