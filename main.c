@@ -19,6 +19,13 @@ typedef struct
     Alamat alamat;
 } Mahasiswa;
 
+typedef struct {
+    char step[150];
+    struct node *next;
+} node;
+node *petunjuk1, *petunjuk2, *petunjuk3, *petunjuk4, *petunjuk5, *petunjuk6, *petunjuk7;
+
+
 #define max 100
 // Taruh variable size dan array global, biar bisa diakses dimana saja
 int curSize = 5;
@@ -347,7 +354,7 @@ void sequentialSearch(char atribut[], char keyword[30]) {
 // Binary Search untuk Searching Eksak
 void binarySearch(char atribut[], char keyword[30]) {
     // Urutkan data terlebih dahulu, by NPM ascending
-    selectionSort("npm", 1);
+    selectionSort(atribut, 1);
 
     // Inisialisasi awal
     bool found=false;
@@ -382,8 +389,48 @@ void binarySearch(char atribut[], char keyword[30]) {
     }
 }
 
+void fillPetunjuk() {
+    // Alokasi Memori
+    petunjuk1 = malloc(sizeof(node));
+    petunjuk2 = malloc(sizeof(node));
+    petunjuk3 = malloc(sizeof(node));
+    petunjuk4 = malloc(sizeof(node));
+    petunjuk5 = malloc(sizeof(node));
+    petunjuk6 = malloc(sizeof(node));
+    petunjuk7 = malloc(sizeof(node));
+
+    // Assign Values
+    strcpy(petunjuk1->step, "* Selamat Datang pada aplikasi CRUD data UKM Mahasiswa \n");
+    strcpy(petunjuk2->step, "* Anda dapat melakukan operasi yang anda inginkan dengan menginputkan sesuai urutan nomor menu berikut.\n");
+    strcpy(petunjuk3->step, "* Anda dapat melakukan Tambah, Ubah, dan Hapus Mahasiswa\n");
+    strcpy(petunjuk4->step, "* Anda juga dapat melakukan Pengurutan berdasarkan Nama dan NPM secara Ascending / Descending \n");
+    strcpy(petunjuk5->step, "* Anda juga dapat melakukan Pencarian data secara eksak maupun parsial \n");
+    strcpy(petunjuk6->step, "* Jika layar sudah mulai penuh, anda dapat membersihkannya dengan maenu \"Clear Screen\" \n");
+    strcpy(petunjuk7->step, "* Selamat menggunakan aplikasi sederhana ini \n");
+
+    // Sambungkan rantai
+    petunjuk1->next = petunjuk2;
+    petunjuk2->next = petunjuk3;
+    petunjuk3->next = petunjuk4;
+    petunjuk4->next = petunjuk5;
+    petunjuk5->next = petunjuk6;
+    petunjuk6->next = petunjuk7;
+    petunjuk7->next = NULL;
+}
+
+void petunjukAplikasi() {
+    node *temp = petunjuk1;
+    while (temp != NULL) {
+        printf(temp->step);
+        temp = temp->next; // Assign address next-nya
+    }
+    printf("\n");
+}
+
 int main()
 {
+    fillPetunjuk();
+    petunjukAplikasi();
     displayMahasiswa();
     bool exit = false;
     while (!exit) {
@@ -396,6 +443,8 @@ int main()
         printf("6. Urut berdasarkan NPM \n");
         printf("7. Cari berdasarkan Nama \n");
         printf("8. Cari berdasarkan NPM \n");
+        printf("9. Clear Screen \n");
+        printf("10. Petunjuk Penggunaan \n");
         printf("Pilihan Anda: "); scanf("%i", &choice);
         printf("\n");
 
@@ -435,6 +484,15 @@ int main()
 
             case 8:
                 searchBy("npm");
+                break;
+
+            case 9:
+                system("cls");
+                displayMahasiswa();
+                break;
+
+            case 10:
+                petunjukAplikasi();
                 break;
 
             default:
