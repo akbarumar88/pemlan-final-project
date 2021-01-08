@@ -36,6 +36,7 @@ Mahasiswa listMhs[max] = {
     { "Danil Hendra", "045", "Ilmu Komputer", "Teknik Informatika", 3, "user123", {"Suko", "Sidoarjo"} },
     { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, "user123", {"Suko", "Sidoarjo"} }
 };
+int userLoggedInIndex;
 
 int binarySearch(char atribut[], char keyword[30], bool displayResult);
 
@@ -438,12 +439,13 @@ void login() {
     printf("Login Aplikasi \n");
 
     Mahasiswa found;
+    int indexResult;
     do {
         printf("Harap memasukkan NPM yang sudah terdaftar : "); scanf("%s", &inputNPM);
         printf("Password : "); scanf("%s", &inputPass);
 
         // Cari berdasarkan NPM nya
-        int indexResult = binarySearch("npm", inputNPM, false);
+        indexResult = binarySearch("npm", inputNPM, false);
         if (indexResult != -1) {
             // Jika ditemukan, Apakah password valid?
             found = listMhs[indexResult];
@@ -459,7 +461,30 @@ void login() {
     } while(!permitted);
 
     // Berhasil login
+    userLoggedInIndex = indexResult;
     printf("\nSelamat datang kembali %s! \n\n", found.nama);
+}
+
+void ubahPassword() {
+    bool valid = false;
+    char oldPass[30], newPass[30];
+    Mahasiswa currentUser = listMhs[userLoggedInIndex];
+    do {
+        printf("Inputkan password lama : "); scanf("%s", &oldPass);
+        printf("Inputkan password baru : "); scanf("%s", &newPass);
+
+        if (strcmp(currentUser.password, oldPass) == 0) {
+            // Jika password lama benar
+            valid=true;
+        } else {
+            printf("Password lama salah.\n\n");
+        }
+    } while(!valid);
+
+    // Jika password benar
+    strcpy(currentUser.password, newPass);
+    listMhs[userLoggedInIndex] = currentUser;
+    printf("Password berhasil diubah.\n\n");
 }
 
 int main()
@@ -532,6 +557,10 @@ int main()
 
             case 'i':
                 petunjukAplikasi();
+                break;
+
+            case 'h':
+                ubahPassword();
                 break;
 
             case 'l':
