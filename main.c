@@ -468,6 +468,7 @@ void login() {
 void ubahPassword() {
     bool valid = false;
     char oldPass[30], newPass[30];
+    int chance = 3;
     Mahasiswa currentUser = listMhs[userLoggedInIndex];
     do {
         printf("Inputkan password lama : "); scanf("%s", &oldPass);
@@ -479,8 +480,13 @@ void ubahPassword() {
         } else {
             printf("Password lama salah.\n\n");
         }
-    } while(!valid);
+        chance--;
+    } while(!valid && chance > 0);
 
+    if (!valid) {
+        printf("Anda telah salah menginputkan password sebanyak 3 kali. Harap coba lagi nanti.\n\n");
+        return;
+    }
     // Jika password benar
     strcpy(currentUser.password, newPass);
     listMhs[userLoggedInIndex] = currentUser;
