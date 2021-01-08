@@ -37,6 +37,8 @@ Mahasiswa listMhs[max] = {
     { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, "user123", {"Suko", "Sidoarjo"} }
 };
 
+int binarySearch(char atribut[], char keyword[30], bool displayResult);
+
 void tambahData() {
     Mahasiswa m;
     printf("Nama        : "); fflush(stdin); gets(m.nama);
@@ -304,7 +306,7 @@ void searchBy(char atribut[]) {
     printf("Inputkan %s yang akan anda cari : ", atribut); fflush(stdin); gets(keyword);
     switch(search_method) {
         case '1':
-            binarySearch(atribut, keyword);
+            binarySearch(atribut, keyword, true);
             break;
 
         case '2':
@@ -352,7 +354,7 @@ void sequentialSearch(char atribut[], char keyword[30]) {
 }
 
 // Binary Search untuk Searching Eksak
-int binarySearch(char atribut[], char keyword[30]) {
+int binarySearch(char atribut[], char keyword[30], bool displayResult) {
     // Urutkan data terlebih dahulu, by 'atribut yang dipilih' ascending
     selectionSort(atribut, '1');
 
@@ -375,17 +377,19 @@ int binarySearch(char atribut[], char keyword[30]) {
         }
     }
 
-    if (!found) {
-        printf("Maaf, data yang anda cari tidak ditemukan \n\n");
-    } else {
-        printf("Data yang anda cari berhasil ditemukan \n");
-        Mahasiswa current_mhs = listMhs[m];
-        printf("Nama        : %s \n", current_mhs.nama);
-        printf("NPM         : %s \n", current_mhs.npm);
-        printf("Fakultas    : %s \n", current_mhs.fakultas);
-        printf("Jurusan     : %s \n", current_mhs.jurusan);
-        printf("Semester    : %i \n", current_mhs.semester);
-        printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
+    if (displayResult) {
+        if (!found) {
+            printf("Maaf, data yang anda cari tidak ditemukan \n\n");
+        } else {
+            printf("Data yang anda cari berhasil ditemukan \n");
+            Mahasiswa current_mhs = listMhs[m];
+            printf("Nama        : %s \n", current_mhs.nama);
+            printf("NPM         : %s \n", current_mhs.npm);
+            printf("Fakultas    : %s \n", current_mhs.fakultas);
+            printf("Jurusan     : %s \n", current_mhs.jurusan);
+            printf("Semester    : %i \n", current_mhs.semester);
+            printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
+        }
     }
     return found ? m : -1;
 }
@@ -429,24 +433,44 @@ void petunjukAplikasi() {
 }
 
 void login() {
+    bool permitted = false;
     char inputNPM[15], inputPass[30];
     printf("Login Aplikasi \n");
-    printf("Harap memasukkan NPM yang sudah terdaftar : "); scanf("%s", &inputNPM);
-    printf("Password : "); scanf("%s", &inputPass);
 
+    Mahasiswa found;
+    do {
+        printf("Harap memasukkan NPM yang sudah terdaftar : "); scanf("%s", &inputNPM);
+        printf("Password : "); scanf("%s", &inputPass);
 
+        // Cari berdasarkan NPM nya
+        int indexResult = binarySearch("npm", inputNPM, false);
+        if (indexResult != -1) {
+            // Jika ditemukan, Apakah password valid?
+            found = listMhs[indexResult];
+            if (strcmp(found.password, inputPass) == 0) {
+                permitted=true;
+            } else {
+                printf("Password yang anda maskkan salah. Harap coba lagi\n\n");
+            }
+        } else {
+            // Jika tidak ditemukan
+            printf("User dengan NPM %s tidak ditemukan.\n\n", inputNPM);
+        }
+    } while(!permitted);
+
+    // Berhasil login
+    printf("\nSelamat datang kembali %s! \n\n", found.nama);
 }
 
 int main()
 {
     // Autentikasi User Login
-    // login();
+    login();
 
     fillPetunjuk();
     petunjukAplikasi();
     displayMahasiswa();
-    bool exit = false;
-    while (!exit) {
+    while (true) {
         printf("1. Tambah Data \n");
         printf("2. Ubah Data \n");
         printf("3. Hapus Data \n");
@@ -457,6 +481,7 @@ int main()
         printf("8. Cari berdasarkan NPM \n");
         printf("9. Clear Screen \n");
         printf("h. Ubah Password \n");
+        printf("l. Logout \n");
         printf("i. Petunjuk Penggunaan \n");
 
         char choice;
@@ -480,8 +505,7 @@ int main()
                 break;
 
             case '4':
-                exit = true;
-                break;
+                return;
 
             case '5':
                 urutBy("nama");
@@ -508,6 +532,11 @@ int main()
 
             case 'i':
                 petunjukAplikasi();
+                break;
+
+            case 'l':
+                system("cls");
+                login();
                 break;
 
             default:
