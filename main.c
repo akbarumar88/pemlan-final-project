@@ -16,6 +16,7 @@ typedef struct
     char fakultas[20];
     char jurusan[20];
     int semester;
+    char password[30];
     Alamat alamat;
 } Mahasiswa;
 
@@ -31,9 +32,9 @@ node *petunjuk1, *petunjuk2, *petunjuk3, *petunjuk4, *petunjuk5, *petunjuk6, *pe
 int curSize = 3;
 // Array kasih maxLength, kalau tidak maka terjadi eror ketika tambah/ubah data
 Mahasiswa listMhs[max] = {
-    { "Akbar Umar", "043", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
-    { "Danil Hendra", "045", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
-    { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} }
+    { "Akbar Umar", "043", "Ilmu Komputer", "Teknik Informatika", 3, "user123", {"Suko", "Sidoarjo"} },
+    { "Danil Hendra", "045", "Ilmu Komputer", "Teknik Informatika", 3, "user123", {"Suko", "Sidoarjo"} },
+    { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, "user123", {"Suko", "Sidoarjo"} }
 };
 
 void tambahData() {
@@ -124,17 +125,18 @@ void displayMahasiswa() {
 
 // Start sorting method
 void urutBy(char atribut[]) {
-    int order;
+    char order;
     bool salahInput=false;
     // Inputkan Order (asc/desc)
     do
     {
         printf("1. Ascending\n");
         printf("2. Descending\n");
-        printf("Pilih tipe order : "); scanf("%i", &order);
-        printf("\n");
+        printf("Pilih tipe order : "); order = getche();
+        printf("\n\n");
+
         // Jika salah inputan, maka continue
-        if (order < 1 || order > 2) {
+        if (order != '1' && order != '2') {
             printf("Pilih antara 1 atau 2! \n\n");
             salahInput=true;
             continue;
@@ -143,16 +145,16 @@ void urutBy(char atribut[]) {
     } while (salahInput);
 
     // Inputkan metode sort (bubble, selection, dst.)
-    int sortingType;
+    char sortingType;
     do
     {
         printf("1. Bubble Sort\n");
         printf("2. Selection Sort\n");
         printf("3. Insertion Sort\n");
-        printf("Pilih metode pengurutan : "); scanf("%i", &sortingType);
-        printf("\n");
+        printf("Pilih metode pengurutan : "); sortingType = getche();
+        printf("\n\n");
         // Jika salah inputan, maka continue
-        if (sortingType < 1 || sortingType > 3) {
+        if (sortingType != '1' && sortingType != '2' && sortingType != '3') {
             printf("Pilih antara 1 atau 2! \n\n");
             salahInput=true;
             continue;
@@ -161,21 +163,21 @@ void urutBy(char atribut[]) {
     } while (salahInput);
 
     switch(sortingType) {
-        case 1:
+        case '1':
             bubbleSort(atribut, order);
             break;
 
-        case 2:
+        case '2':
             selectionSort(atribut, order);
             break;
 
-        case 3:
+        case '3':
             insertionSort(atribut, order);
             break;
     }
 }
 
-bubbleSort(char atribut[], int order) {
+void bubbleSort(char atribut[], char order) {
     /**
     * 1 = Ascending
     * 2 = Descending
@@ -185,11 +187,11 @@ bubbleSort(char atribut[], int order) {
         for (j = 0; j < curSize-i-1; j++) {
             bool kondisi;
             if (strcmp(atribut, "nama") == 0) {
-                kondisi = order == 1
+                kondisi = order == '1'
                             ? strcmp(listMhs[j].nama, listMhs[j+1].nama) > 0
                             : strcmp(listMhs[j].nama, listMhs[j+1].nama) < 0;
             } else {
-                kondisi = order == 1
+                kondisi = order == '1'
                             ? strcmp(listMhs[j].npm, listMhs[j+1].npm) > 0
                             : strcmp(listMhs[j].npm, listMhs[j+1].npm) < 0;
             }
@@ -204,7 +206,7 @@ bubbleSort(char atribut[], int order) {
     }
 }
 
-selectionSort(char atribut[], int order) {
+void selectionSort(char atribut[], char order) {
     /**
     * 1 = Ascending
     * 2 = Descending
@@ -215,11 +217,11 @@ selectionSort(char atribut[], int order) {
         for (j = i+1; j < curSize; j++) {
             bool kondisi;
             if (strcmp(atribut, "nama") == 0) {
-                kondisi = order == 1
+                kondisi = order == '1'
                             ? strcmp(listMhs[j].nama, listMhs[selected_index].nama) < 0
                             : strcmp(listMhs[j].nama, listMhs[selected_index].nama) > 0;
             } else {
-                kondisi = order == 1
+                kondisi = order == '1'
                             ? strcmp(listMhs[j].npm, listMhs[selected_index].npm) < 0
                             : strcmp(listMhs[j].npm, listMhs[selected_index].npm) > 0;
             }
@@ -236,7 +238,7 @@ selectionSort(char atribut[], int order) {
     }
 }
 
-insertionSort(char atribut[], int order) {
+void insertionSort(char atribut[], char order) {
     /**
     * 1 = Ascending
     * 2 = Descending
@@ -249,11 +251,11 @@ insertionSort(char atribut[], int order) {
 
         bool kondisi_compare;
         if (strcmp(atribut, "nama") == 0) {
-            kondisi_compare = order == 1
+            kondisi_compare = order == '1'
                             ? strcmp(listMhs[j].nama, temp.nama) > 0
                             : strcmp(listMhs[j].nama, temp.nama) < 0;
         } else {
-            kondisi_compare = order == 1
+            kondisi_compare = order == '1'
                             ? strcmp(listMhs[j].npm, temp.npm) > 0
                             : strcmp(listMhs[j].npm, temp.npm) < 0;
         }
@@ -264,11 +266,11 @@ insertionSort(char atribut[], int order) {
 
             // Perbarui kondisi compare, karena 'j' bergeser
             if (strcmp(atribut, "nama") == 0) {
-                kondisi_compare = order == 1
+                kondisi_compare = order == '1'
                                 ? strcmp(listMhs[j].nama, temp.nama) > 0
                                 : strcmp(listMhs[j].nama, temp.nama) < 0;
             } else {
-                kondisi_compare = order == 1
+                kondisi_compare = order == '1'
                                 ? strcmp(listMhs[j].npm, temp.npm) > 0
                                 : strcmp(listMhs[j].npm, temp.npm) < 0;
             }
@@ -280,17 +282,17 @@ insertionSort(char atribut[], int order) {
 
 // Start searching method
 void searchBy(char atribut[]) {
-    int search_method;
+    char search_method;
     bool salahInput=false;
     // Inputkan searching method (sequential/binary)
     do
     {
         printf("1. Pencarian Eksak\n");
         printf("2. Pencarian Parsial\n");
-        printf("Pilih metode searching : "); scanf("%i", &search_method);
-        printf("\n");
+        printf("Pilih metode searching : "); search_method = getche();
+        printf("\n\n");
         // Jika salah inputan, maka continue
-        if (search_method < 1 || search_method > 2) {
+        if (search_method != '1' && search_method != '2') {
             printf("Pilih antara 1 sampai 2! \n\n");
             salahInput=true;
             continue;
@@ -301,11 +303,11 @@ void searchBy(char atribut[]) {
     char keyword[30];
     printf("Inputkan %s yang akan anda cari : ", atribut); fflush(stdin); gets(keyword);
     switch(search_method) {
-        case 1:
+        case '1':
             binarySearch(atribut, keyword);
             break;
 
-        case 2:
+        case '2':
             sequentialSearch(atribut, keyword);
             break;
     }
@@ -350,9 +352,9 @@ void sequentialSearch(char atribut[], char keyword[30]) {
 }
 
 // Binary Search untuk Searching Eksak
-void binarySearch(char atribut[], char keyword[30]) {
-    // Urutkan data terlebih dahulu, by NPM ascending
-    selectionSort(atribut, 1);
+int binarySearch(char atribut[], char keyword[30]) {
+    // Urutkan data terlebih dahulu, by 'atribut yang dipilih' ascending
+    selectionSort(atribut, '1');
 
     // Inisialisasi awal
     bool found=false;
@@ -385,6 +387,7 @@ void binarySearch(char atribut[], char keyword[30]) {
         printf("Semester    : %i \n", current_mhs.semester);
         printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
     }
+    return found ? m : -1;
 }
 
 void fillPetunjuk() {
@@ -425,14 +428,25 @@ void petunjukAplikasi() {
     printf("\n");
 }
 
+void login() {
+    char inputNPM[15], inputPass[30];
+    printf("Login Aplikasi \n");
+    printf("Harap memasukkan NPM yang sudah terdaftar : "); scanf("%s", &inputNPM);
+    printf("Password : "); scanf("%s", &inputPass);
+
+
+}
+
 int main()
 {
+    // Autentikasi User Login
+    // login();
+
     fillPetunjuk();
     petunjukAplikasi();
     displayMahasiswa();
     bool exit = false;
     while (!exit) {
-        int choice;
         printf("1. Tambah Data \n");
         printf("2. Ubah Data \n");
         printf("3. Hapus Data \n");
@@ -442,54 +456,57 @@ int main()
         printf("7. Cari berdasarkan Nama \n");
         printf("8. Cari berdasarkan NPM \n");
         printf("9. Clear Screen \n");
-        printf("10. Petunjuk Penggunaan \n");
-        printf("Pilihan Anda: "); scanf("%i", &choice);
-        printf("\n");
+        printf("h. Ubah Password \n");
+        printf("i. Petunjuk Penggunaan \n");
+
+        char choice;
+        printf("Pilihan Anda: "); choice = getche();
+        printf("\n\n");
 
         switch(choice) {
-            case 1:
+            case '1':
                 tambahData();
                 displayMahasiswa();
                 break;
 
-            case 2:
+            case '2':
                 ubahData();
                 displayMahasiswa();
                 break;
 
-            case 3:
+            case '3':
                 hapusData();
                 displayMahasiswa();
                 break;
 
-            case 4:
+            case '4':
                 exit = true;
                 break;
 
-            case 5:
+            case '5':
                 urutBy("nama");
                 displayMahasiswa();
                 break;
 
-            case 6:
+            case '6':
                 urutBy("npm");
                 displayMahasiswa();
                 break;
 
-            case 7:
+            case '7':
                 searchBy("nama");
                 break;
 
-            case 8:
+            case '8':
                 searchBy("npm");
                 break;
 
-            case 9:
+            case '9':
                 system("cls");
                 displayMahasiswa();
                 break;
 
-            case 10:
+            case 'i':
                 petunjukAplikasi();
                 break;
 
