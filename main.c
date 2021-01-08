@@ -28,14 +28,12 @@ node *petunjuk1, *petunjuk2, *petunjuk3, *petunjuk4, *petunjuk5, *petunjuk6, *pe
 
 #define max 100
 // Taruh variable size dan array global, biar bisa diakses dimana saja
-int curSize = 5;
+int curSize = 3;
 // Array kasih maxLength, kalau tidak maka terjadi eror ketika tambah/ubah data
 Mahasiswa listMhs[max] = {
     { "Akbar Umar", "043", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
     { "Danil Hendra", "045", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
-    { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
-    { "Firman Anhar Rajiman", "057", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} },
-    { "Zainal Arifin", "013", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} }
+    { "Bayu Setiaji", "051", "Ilmu Komputer", "Teknik Informatika", 3, {"Suko", "Sidoarjo"} }
 };
 
 void tambahData() {
