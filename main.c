@@ -42,13 +42,13 @@ int binarySearch(char atribut[], char keyword[30], bool displayResult);
 
 void tambahData() {
     Mahasiswa m;
-    printf("Nama        : "); fflush(stdin); gets(m.nama);
-    printf("NPM         : "); scanf("%s", m.npm);
-    printf("Fakultas    : "); fflush(stdin); gets(m.fakultas);
-    printf("Jurusan     : "); fflush(stdin); gets(m.jurusan);
-    printf("Semester    : "); scanf("%i", &m.semester);
-    printf("Kota 	    : "); scanf("%s", m.alamat.kota);
-    printf("Kecamatan   : "); scanf("%s", m.alamat.kecamatan);
+    printf("? Nama\t\t: "); fflush(stdin); gets(m.nama);
+    printf("? NPM\t\t: "); scanf("%s", m.npm);
+    printf("? Fakultas\t: "); fflush(stdin); gets(m.fakultas);
+    printf("? Jurusan\t: "); fflush(stdin); gets(m.jurusan);
+    printf("? Semester\t: "); scanf("%i", &m.semester);
+    printf("? Kota\t\t: "); scanf("%s", m.alamat.kota);
+    printf("? Kecamatan\t: "); scanf("%s", m.alamat.kecamatan);
     printf("\n\nData berhasil ditambahkan! \n\n");
     listMhs[curSize] = m; curSize++;
 }
@@ -62,7 +62,7 @@ void ubahData() {
     bool salahInput=false;
     do
     {
-        printf("Urutan yang akan diubah : "); scanf("%i", &urutan);
+        printf("? Urutan yang akan diubah : "); scanf("%i", &urutan);
         if (urutan < 1 || urutan > curSize) {
             printf("Urutan harus antara 1 dan %i\n", curSize);
             salahInput=true;
@@ -75,13 +75,13 @@ void ubahData() {
     urutanIndex = urutan-1;
 
     Mahasiswa m;
-    printf("Nama        : "); fflush(stdin); gets(m.nama);
-    printf("NPM         : "); scanf("%s", m.npm);
-    printf("Fakultas    : "); fflush(stdin); gets(m.fakultas);
-    printf("Jurusan     : "); fflush(stdin); gets(m.jurusan);
-    printf("Semester    : "); scanf("%i", &m.semester);
-    printf("Kota 	    : "); scanf("%s", m.alamat.kota);
-    printf("Kecamatan   : "); scanf("%s", m.alamat.kecamatan);
+    printf("? Nama\t\t: "); fflush(stdin); gets(m.nama);
+    printf("? NPM\t\t: "); scanf("%s", m.npm);
+    printf("? Fakultas\t: "); fflush(stdin); gets(m.fakultas);
+    printf("? Jurusan\t: "); fflush(stdin); gets(m.jurusan);
+    printf("? Semester\t: "); scanf("%i", &m.semester);
+    printf("? Kota\t\t: "); scanf("%s", m.alamat.kota);
+    printf("? Kecamatan\t: "); scanf("%s", m.alamat.kecamatan);
     printf("\n\nData berhasil diubah! \n\n");
     listMhs[urutanIndex] = m;
 }
@@ -95,7 +95,7 @@ void hapusData() {
     bool salahInput=false;
     do
     {
-        printf("Urutan yang akan dihapus : "); scanf("%i", &urutan);
+        printf("? Urutan yang akan dihapus : "); scanf("%i", &urutan);
         if (urutan < 1 || urutan > curSize) {
             printf("Urutan harus antara 1 dan %i\n", curSize);
             salahInput=true;
@@ -117,12 +117,12 @@ void hapusData() {
 void displayMahasiswa() {
     int i;
     for (i = 0; i < curSize; i++) {
-        printf("Nama        : %s \n", listMhs[i].nama);
-        printf("NPM         : %s \n", listMhs[i].npm);
-        printf("Fakultas    : %s \n", listMhs[i].fakultas);
-        printf("Jurusan     : %s \n", listMhs[i].jurusan);
-        printf("Semester    : %i \n", listMhs[i].semester);
-        printf("Alamat      : %s, %s \n\n", listMhs[i].alamat.kecamatan, listMhs[i].alamat.kota);
+        printf("[*] Nama\t: %s \n", listMhs[i].nama);
+        printf("[*] NPM\t\t: %s \n", listMhs[i].npm);
+        printf("[*] Fakultas\t: %s \n", listMhs[i].fakultas);
+        printf("[*] Jurusan\t: %s \n", listMhs[i].jurusan);
+        printf("[*] Semester\t: %i \n", listMhs[i].semester);
+        printf("[*] Alamat\t: %s, %s \n\n", listMhs[i].alamat.kecamatan, listMhs[i].alamat.kota);
     }
 }
 
@@ -135,7 +135,7 @@ void urutBy(char atribut[]) {
     {
         printf("1. Ascending\n");
         printf("2. Descending\n");
-        printf("Pilih tipe order : "); order = getche();
+        printf("? Pilih tipe order : "); order = getche();
         printf("\n\n");
 
         // Jika salah inputan, maka continue
@@ -154,7 +154,7 @@ void urutBy(char atribut[]) {
         printf("1. Bubble Sort\n");
         printf("2. Selection Sort\n");
         printf("3. Insertion Sort\n");
-        printf("Pilih metode pengurutan : "); sortingType = getche();
+        printf("? Pilih metode pengurutan : "); sortingType = getche();
         printf("\n\n");
         // Jika salah inputan, maka continue
         if (sortingType != '1' && sortingType != '2' && sortingType != '3') {
@@ -292,7 +292,7 @@ void searchBy(char atribut[]) {
     {
         printf("1. Pencarian Eksak\n");
         printf("2. Pencarian Parsial\n");
-        printf("Pilih metode searching : "); search_method = getche();
+        printf("? Pilih metode searching : "); search_method = getche();
         printf("\n\n");
         // Jika salah inputan, maka continue
         if (search_method != '1' && search_method != '2') {
@@ -304,7 +304,7 @@ void searchBy(char atribut[]) {
     } while (salahInput);
 
     char keyword[30];
-    printf("Inputkan %s yang akan anda cari : ", atribut); fflush(stdin); gets(keyword);
+    printf("? Inputkan %s yang akan anda cari : ", atribut); fflush(stdin); gets(keyword);
     switch(search_method) {
         case '1':
             binarySearch(atribut, keyword, true);
@@ -344,12 +344,12 @@ void sequentialSearch(char atribut[], char keyword[30]) {
         int j;
         for (j=0; j<hasil_search_size; j++) {
             Mahasiswa current_mhs = hasil_search[j];
-            printf("Nama        : %s \n", current_mhs.nama);
-            printf("NPM         : %s \n", current_mhs.npm);
-            printf("Fakultas    : %s \n", current_mhs.fakultas);
-            printf("Jurusan     : %s \n", current_mhs.jurusan);
-            printf("Semester    : %i \n", current_mhs.semester);
-            printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
+            printf("[*] Nama\t: %s \n", current_mhs.nama);
+            printf("[*] NPM\t\t: %s \n", current_mhs.npm);
+            printf("[*] Fakultas\t: %s \n", current_mhs.fakultas);
+            printf("[*] Jurusan\t: %s \n", current_mhs.jurusan);
+            printf("[*] Semester\t: %i \n", current_mhs.semester);
+            printf("[*] Alamat\t: %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
         }
     }
 }
@@ -384,12 +384,12 @@ int binarySearch(char atribut[], char keyword[30], bool displayResult) {
         } else {
             printf("Data yang anda cari berhasil ditemukan \n");
             Mahasiswa current_mhs = listMhs[m];
-            printf("Nama        : %s \n", current_mhs.nama);
-            printf("NPM         : %s \n", current_mhs.npm);
-            printf("Fakultas    : %s \n", current_mhs.fakultas);
-            printf("Jurusan     : %s \n", current_mhs.jurusan);
-            printf("Semester    : %i \n", current_mhs.semester);
-            printf("Alamat      : %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
+            printf("[*] Nama\t: %s \n", current_mhs.nama);
+            printf("[*] NPM\t\t: %s \n", current_mhs.npm);
+            printf("[*] Fakultas\t: %s \n", current_mhs.fakultas);
+            printf("[*] Jurusan\t: %s \n", current_mhs.jurusan);
+            printf("[*] Semester\t: %i \n", current_mhs.semester);
+            printf("[*] Alamat\t: %s, %s \n\n", current_mhs.alamat.kecamatan, current_mhs.alamat.kota);
         }
     }
     return found ? m : -1;
@@ -406,13 +406,13 @@ void fillPetunjuk() {
     petunjuk7 = malloc(sizeof(node));
 
     // Assign Values
-    strcpy(petunjuk1->step, "* Selamat Datang pada aplikasi CRUD data UKM Mahasiswa \n");
-    strcpy(petunjuk2->step, "* Anda dapat melakukan operasi yang anda inginkan dengan menginputkan sesuai urutan nomor menu berikut.\n");
-    strcpy(petunjuk3->step, "* Anda dapat melakukan Tambah, Ubah, dan Hapus Mahasiswa\n");
-    strcpy(petunjuk4->step, "* Anda juga dapat melakukan Pengurutan berdasarkan Nama dan NPM secara Ascending / Descending \n");
-    strcpy(petunjuk5->step, "* Anda juga dapat melakukan Pencarian data secara eksak maupun parsial \n");
-    strcpy(petunjuk6->step, "* Jika layar sudah mulai penuh, anda dapat membersihkannya dengan maenu \"Clear Screen\" \n");
-    strcpy(petunjuk7->step, "* Selamat menggunakan aplikasi sederhana ini \n");
+    strcpy(petunjuk1->step, "~ Selamat Datang pada aplikasi CRUD data UKM Mahasiswa \n");
+    strcpy(petunjuk2->step, "~ Anda dapat melakukan operasi yang anda inginkan dengan menginputkan sesuai urutan nomor menu berikut.\n");
+    strcpy(petunjuk3->step, "~ Anda dapat melakukan Tambah, Ubah, dan Hapus Mahasiswa\n");
+    strcpy(petunjuk4->step, "~ Anda juga dapat melakukan Pengurutan berdasarkan Nama dan NPM secara Ascending / Descending \n");
+    strcpy(petunjuk5->step, "~ Anda juga dapat melakukan Pencarian data secara eksak maupun parsial \n");
+    strcpy(petunjuk6->step, "~ Jika layar sudah mulai penuh, anda dapat membersihkannya dengan maenu \"Clear Screen\" \n");
+    strcpy(petunjuk7->step, "~ Selamat menggunakan aplikasi sederhana ini \n");
 
     // Sambungkan rantai
     petunjuk1->next = petunjuk2;
@@ -436,13 +436,16 @@ void petunjukAplikasi() {
 void login() {
     bool permitted = false;
     char inputNPM[15], inputPass[30];
-    printf("Login Aplikasi \n");
+    printf(">>---> >>---> >>---> >>---> >>--->\n");
+    printf("\tLogin Aplikasi \n");
+    printf("<---<< <---<< <---<< <---<< <---<<\n\n");
+    printf("Harap memasukkan info yang sudah terdaftar \n");
 
     Mahasiswa found;
     int indexResult;
     do {
-        printf("Harap memasukkan NPM yang sudah terdaftar : "); scanf("%s", &inputNPM);
-        printf("Password : "); scanf("%s", &inputPass);
+        printf("? NPM Mahasiswa\t: "); scanf("%s", &inputNPM);
+        printf("? Password\t: "); scanf("%s", &inputPass);
 
         // Cari berdasarkan NPM nya
         indexResult = binarySearch("npm", inputNPM, false);
@@ -471,8 +474,8 @@ void ubahPassword() {
     int chance = 3;
     Mahasiswa currentUser = listMhs[userLoggedInIndex];
     do {
-        printf("Inputkan password lama : "); scanf("%s", &oldPass);
-        printf("Inputkan password baru : "); scanf("%s", &newPass);
+        printf("? Inputkan password lama : "); scanf("%s", &oldPass);
+        printf("? Inputkan password baru : "); scanf("%s", &newPass);
 
         if (strcmp(currentUser.password, oldPass) == 0) {
             // Jika password lama benar
@@ -558,7 +561,6 @@ int main()
 
             case '9':
                 system("cls");
-                displayMahasiswa();
                 break;
 
             case 'i':
