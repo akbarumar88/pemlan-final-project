@@ -443,9 +443,23 @@ void login() {
 
     Mahasiswa found;
     int indexResult;
+    char c;
     do {
         printf("? NPM Mahasiswa\t: "); scanf("%s", &inputNPM);
-        printf("? Password\t: "); scanf("%s", &inputPass);
+        printf("? Password\t: ");
+        // Hide input password
+        int i = 0;
+        while (i < 30) {
+            c = getch();
+            inputPass[i] = c;
+            if (c == 13)
+                break;
+            else
+                printf("*");
+            i++;
+        }
+        inputPass[i]='\0'; //Append terminasi character string
+        printf("\n");
 
         // Cari berdasarkan NPM nya
         indexResult = binarySearch("npm", inputNPM, false);
@@ -472,10 +486,36 @@ void ubahPassword() {
     bool valid = false;
     char oldPass[30], newPass[30];
     int chance = 3;
+    char c;
     Mahasiswa currentUser = listMhs[userLoggedInIndex];
     do {
-        printf("? Inputkan password lama : "); scanf("%s", &oldPass);
-        printf("? Inputkan password baru : "); scanf("%s", &newPass);
+        printf("? Inputkan password lama : ");
+        int i = 0;
+        while (i < 30) {
+            c = getch();
+            oldPass[i] = c;
+            if (c == 13)
+                break;
+            else
+                printf("*");
+            i++;
+        }
+        oldPass[i]='\0'; //Append terminasi character string
+        printf("\n");
+
+        printf("? Inputkan password baru : ");
+        i = 0;
+        while (i < 30) {
+            c = getch();
+            newPass[i] = c;
+            if (c == 13)
+                break;
+            else
+                printf("*");
+            i++;
+        }
+        newPass[i]='\0'; //Append terminasi character string
+        printf("\n");
 
         if (strcmp(currentUser.password, oldPass) == 0) {
             // Jika password lama benar
